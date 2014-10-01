@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<!--TODO: Fix table header and column1-->
+
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+	<link rel="stylesheet" href="style.css">
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script> 
+	<script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+	
+	<div data-role="page" id="Game">
+		<div data-role="header">
+			<h1>Oh Hell Score Tracker</h1>
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#Game" data-icon="home" class="ui-btn-active ui-state-persist">Game</a></li>
+					<li><a href="#players" data-icon="user">Players</a></li>
+					<li><a href="#Scores" data-icon="bars">Scores</a></li>
+				</ul>
+			</div>
+		</div>
+		<div data-role="main" class="ui-content">
+			<div class="ui-grid-b" id="gameScreen">
+				<div class="ui-block-a" style="width:40%; padding: .5em; font-size: x-large; font-family: serif">Player</div>
+				<div class="ui-block-b" style="width:30%; padding: .5em; font-size: x-large; font-family: serif">Bet</div>
+				<div class="ui-block-c" style="width:30%; padding: .5em; font-size: x-large; font-family: serif">Happy?</div>
+			</div>
+			<div class="ui-grid-solo" id="scoringRoundScreen">
+				<div class="ui-block-a"><button class="ui-btn ui-mini" id="next_btn">Next Round</button></div>
+			</div>
+		</div>
+	</div>
+	
+	<div data-role="page" id="players">
+		<div data-role="header">
+			<h1>Oh Hell Score Tracker</h1>
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#Game" data-icon="home">Game</a></li>
+					<li><a href="#players" data-icon="user" class="ui-btn-active ui-state-persist">Players</a></li>
+					<li><a href="#Scores" data-icon="bars">Scores</a></li>
+				</ul>
+			</div>
+		</div>
+		<div style="padding:.5em 0em .5em 1em"><h2> Teams <input type="checkbox" name="teams-flip" data-role="flipswitch" data-mini="true"></div>
+		<div class="ui-grid-b my-breakpoint" id="add_players">
+				<div class="ui-block-a" style="width:80%; padding:.5em"><input type="text" name="playerNameInput" placeholder="Player Name"></div>
+				<div class="ui-block-b" style="width:20%; padding:.5em .5em .5em 0em"><button class="ui-btn ui-mini" id="btn-add">Add</button></div>
+		</div>
+		<div class="ui-grid-b" id="playerList">
+		</div>
+	</div>
+	
+	<div data-role="page" id="Scores">
+		<div data-role="header">
+			<h1>Oh Hell Score Tracker</h1>
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#Game" data-icon="home">Game</a></li>
+					<li><a href="#players" data-icon="user">Players</a></li>
+					<li><a href="#Scores" data-icon="bars" class="ui-btn-active ui-state-persist">Scores</a></li>
+				</ul>
+			</div>
+		</div>
+		<table id="scores_table" style="width:100%">
+				<caption>Player Scores</caption>
+				<tr id="player_col">
+					<td class="round"><b>Rnd</b></td>
+				</tr>
+		</table>
+	</div>
+</body>
+</HTML>

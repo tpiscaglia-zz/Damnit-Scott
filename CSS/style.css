@@ -1,0 +1,28 @@
+table {
+	padding: 1em;
+	border-spacing: .5em;
+	table-layout: fixed;
+}
+
+table tr:nth-child(odd){
+	background-color: #ffffff;
+}
+
+#player_col {
+	background-color: #b3dcfc;
+}
+
+thead{
+	position:center;
+}
+caption{
+	padding:1em;
+	font-size:2em;
+	font-style:bold;
+}
+
+.round{
+	width: 3em;
+}
+
+
