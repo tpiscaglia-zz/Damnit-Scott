@@ -1,6 +1,6 @@
 table {
 	padding: .2em;
-	border-spacing: 0px;
+	border-spacing: 0;
 	table-layout: fixed;
 }
 
@@ -17,12 +17,12 @@ table tr:nth-child(even){
 }
 
 thead{
-	position:center;
+	align-self:center;
 }
 caption{
 	padding:1em;
 	font-size:2em;
-	font-style:bold;
+	font-weight: bold;
 }
 
 .round{
@@ -32,6 +32,10 @@ caption{
 
 .remove-btn{
 	height:59px;
+}
+
+#toolbar {
+    padding-top: 1em;
 }
 
 input[type=number]{

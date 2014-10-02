@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	/********************************************************************************/
-	/*********************************To Do List*************************************/
+	/*********************************TODO List*************************************/
 	// Features to add: 
 	//					Teams radio button
 	//					Individual bets for Teams
@@ -20,7 +20,7 @@ $(document).ready(function(){
 		this.score = 0;
 		this.playerNumber = "Player" + playerArray.length;
 		this.bet = 0;
-	};
+	}
 	
 	/******************************JavaScript Functions*****************************/
 	//Function that creates a new player object.  Takes in name as input.
@@ -38,15 +38,21 @@ $(document).ready(function(){
 				$('#playerList').append('<div class="ui-block-b remove-btn" data-role="button" ui-icon="minus"><image src="img/minus.png" width="25" height="25" id="remove-btn"></div>');
 				addPlayerToGameScreen(name);
 				addPlayerToScoreScreen(name);
-			};
-		};
+			}
+		}
 	};
 	
 	//Function that adds the Player to the Game screen.  Sets up the columns and rows.  Also gives unique ID, that is tied to a player object, to each rows checkbox and bet so that it can be checked for scoring.
 	var addPlayerToGameScreen = function(name){
 		$('#gameScreen').append('<div class="ui-block-a" style="width:40%; padding: .5em; font-size: large;">' + playerArray[playerArray.length - 1].name + '<div>');
-		$('#gameScreen').append('<div class="ui-block-b" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + playerArray[playerArray.length - 1].playerNumber + 'Bet">' + '</div>');		
-		$('#gameScreen').append('<div class="ui-block-c" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + playerArray[playerArray.length - 1].playerNumber + 'Check">' + '</div>');
+        if ($('input[name=teams-flip]').is(':checked')){
+            $('#gameScreen').append('<div class="ui-block-b" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em; margin-right:.5em">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + playerArray[playerArray.length - 1].playerNumber + 'Bet">' + '</div>');
+            $('#gameScreen').append('<div class="ui-block-c" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + playerArray[playerArray.length - 1].playerNumber + 'Check">' + '</div>');
+        }
+        else {
+            $('#gameScreen').append('<div class="ui-block-b" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + playerArray[playerArray.length - 1].playerNumber + 'Bet">' + '</div>');
+            $('#gameScreen').append('<div class="ui-block-c" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + playerArray[playerArray.length - 1].playerNumber + 'Check">' + '</div>');
+        }
 	};
 	
 	//Function adds player to player screen
@@ -78,7 +84,7 @@ $(document).ready(function(){
 				$('#round' + round).append('<td style="color:red;">' + playerArray[x].score + '</td>');
 				//alert(playerArray[x].score);
 			}
-		};	
+		}
 		$('#scores_table').append('</tr>');
 		round += 1;
 	};
@@ -96,5 +102,5 @@ $(document).ready(function(){
 	$('#scoringRoundScreen').on('click', '#next_btn', function(){
 		scoreRound();
 		window.location ='#Scores';
-	});
+	})
 });
