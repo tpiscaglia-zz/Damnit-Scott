@@ -2,14 +2,11 @@ $(document).ready(function(){
 	/********************************************************************************/
 	/*********************************To Do List*************************************/
 	// Features to add: 
-	//					Teams radio button
-	//					Individual bets for Teams
+	//					Add additional validation
+	//					Lock teams flipswitch after first team has been added
 	//					Hand counter
 	//					Randomizer for dealer
-<<<<<<< HEAD
 	//					Alert current scores after round
-=======
->>>>>>> origin/master
 	/********************************************************************************/
 	
 	/********************************Global Variables********************************/
