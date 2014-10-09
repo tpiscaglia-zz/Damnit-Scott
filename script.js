@@ -6,7 +6,10 @@ $(document).ready(function(){
 	//					Individual bets for Teams
 	//					Hand counter
 	//					Randomizer for dealer
+<<<<<<< HEAD
 	//					Alert current scores after round
+=======
+>>>>>>> origin/master
 	/********************************************************************************/
 	
 	/********************************Global Variables********************************/
@@ -52,6 +55,7 @@ $(document).ready(function(){
 	
 	//Function that adds the Player to the Game screen.  Sets up the columns and rows.  Also gives unique ID, that is tied to a player object, to each rows checkbox and bet so that it can be checked for scoring.
 	var addPlayerToGameScreen = function(player){
+<<<<<<< HEAD
 		if($('[name="teams-flip"]').is(':checked')){
 			$('#gameScreen').append('<div class="ui-block-a '+player.playerNumber+'" style="width:40%; padding: .5em; font-size: large;">' + player.name + '<div>');
 			$('#gameScreen').append('<div class="ui-block-b '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'A-Bet">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'B-Bet">' + '</div>');		
@@ -62,6 +66,11 @@ $(document).ready(function(){
 		$('#gameScreen').append('<div class="ui-block-b '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'Bet">' + '</div>');		
 		$('#gameScreen').append('<div class="ui-block-c '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + player.playerNumber + 'Check">' + '</div>');
 		}
+=======
+		$('#gameScreen').append('<div class="ui-block-a '+player.playerNumber+'" style="width:40%; padding: .5em; font-size: large;">' + player.name + '<div>');
+		$('#gameScreen').append('<div class="ui-block-b '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'Bet">' + '</div>');		
+		$('#gameScreen').append('<div class="ui-block-c '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + player.playerNumber + 'Check">' + '</div>');
+>>>>>>> origin/master
 	};
 
 	//This function adds the player to the score screen Assigning the ID to the playerID.
@@ -107,6 +116,7 @@ $(document).ready(function(){
 		$('#scores_table').append('</tr>');
 		round += 1;
 	};
+<<<<<<< HEAD
 	
 	var scoreTeamsRound = function(){
 		$('#scores_table').append('<tr id="round' + round +'">' + '<td>' + round + '</td>');
@@ -136,6 +146,8 @@ $(document).ready(function(){
 		$('#scores_table').append('</tr>');
 		round += 1;
 	};
+=======
+>>>>>>> origin/master
 	
 	/********************************JQuery Functions*******************************/
 	//This function listens for the add button (id of btn-add) to be clicked and calls the functions that add players once it is called. 
@@ -153,6 +165,11 @@ $(document).ready(function(){
 		else{
 			scoreRound();
 		}
+	});
+
+	$('#players').on('click', '.remove-btn', function(){
+		var playerNumber = event.target.id.replace('remove-btn-','');
+		removePlayer(playerNumber);
 	});
 
 	$('#players').on('click', '.remove-btn', function(){
