@@ -26,11 +26,11 @@ $(document).ready(function(){
 	//Function that creates a new player object.  Takes in name as input.
 	var addPlayer = function(name){
 		if(playerArray.length > 5){
-			alert("Sorry, you've reached the max number of players.");
+			alert("Sorry, you've reached the maximum number of players.");
 		}
 		else{
 			if (name == ''){
-				alert("Please put enter a valid name.");
+				alert("Please enter a valid name.");
 			}
 			else{
 
@@ -41,6 +41,7 @@ $(document).ready(function(){
 				addPlayerToPlayerScreen(p);
 				addPlayerToGameScreen(p);
 				addPlayerToScoreScreen(p);
+				setTeamButton();
 			};
 		};
 	};
@@ -52,22 +53,19 @@ $(document).ready(function(){
 	
 	//Function that adds the Player to the Game screen.  Sets up the columns and rows.  Also gives unique ID, that is tied to a player object, to each rows checkbox and bet so that it can be checked for scoring.
 	var addPlayerToGameScreen = function(player){
-<<<<<<< HEAD
-		if($('[name="teams-flip"]').is(':checked')){
-			$('#gameScreen').append('<div class="ui-block-a '+player.playerNumber+'" style="width:40%; padding: .5em; font-size: large;">' + player.name + '<div>');
+	
+		$('#gameScreen').append('<div class="ui-block-a '+player.playerNumber+'" style="width:40%; padding: .5em; font-size: large;">' + player.name + '<div>');
+		
+		if(isTeamGame()){
+			//append dual score boxes
 			$('#gameScreen').append('<div class="ui-block-b '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'A-Bet">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'B-Bet">' + '</div>');		
-			$('#gameScreen').append('<div class="ui-block-c '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + player.playerNumber + 'Check">' + '</div>');
 		}
 		else{
-		$('#gameScreen').append('<div class="ui-block-a '+player.playerNumber+'" style="width:40%; padding: .5em; font-size: large;">' + player.name + '<div>');
-		$('#gameScreen').append('<div class="ui-block-b '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'Bet">' + '</div>');		
-		$('#gameScreen').append('<div class="ui-block-c '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + player.playerNumber + 'Check">' + '</div>');
+			//append single score box
+			$('#gameScreen').append('<div class="ui-block-b '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'Bet">' + '</div>');		
 		}
-=======
-		$('#gameScreen').append('<div class="ui-block-a '+player.playerNumber+'" style="width:40%; padding: .5em; font-size: large;">' + player.name + '<div>');
-		$('#gameScreen').append('<div class="ui-block-b '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'Bet">' + '</div>');		
+		
 		$('#gameScreen').append('<div class="ui-block-c '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + player.playerNumber + 'Check">' + '</div>');
->>>>>>> origin/master
 	};
 
 	//This function adds the player to the score screen Assigning the ID to the playerID.
@@ -85,16 +83,16 @@ $(document).ready(function(){
 			$(p).remove();
 			var key = playerNumber.replace(/\D/g,'')
 			playerArray.splice(key,1); //remove from playerArray
+			setTeamButton();
 		}
 	}
 	
-	/****************************Scoring System Function****************************/
-	var scoreRound = function(){
+	/****************************Scoring System Functions***************************/
+	var scoreRound = function(isTeamGame){
 		$('#scores_table').append('<tr id="round' + round +'">' + '<td>' + round + '</td>');
 		for(var x=0;x < playerArray.length;x++){
-			var bet = parseInt($('input[name=' + playerArray[x].playerNumber + 'Bet]').val(), 10);
-			//assume empty bets are 0
-			bet = isNaN(bet) ? 0 : bet ;
+
+			var bet = getBet(x,isTeamGame);
 			var happy = $('input[name=' + playerArray[x].playerNumber + 'Check]').is(':checked');
 			if(happy === true){
 				playerArray[x].score = playerArray[x].score + 10 + bet;
@@ -113,38 +111,32 @@ $(document).ready(function(){
 		$('#scores_table').append('</tr>');
 		round += 1;
 	};
-<<<<<<< HEAD
-	
-	var scoreTeamsRound = function(){
-		$('#scores_table').append('<tr id="round' + round +'">' + '<td>' + round + '</td>');
-		for(var x=0;x < playerArray.length;x++){
-			var bet1 = parseInt($('input[name=' + playerArray[x].playerNumber + 'A-Bet]').val(), 10);
-			var bet2 = parseInt($('input[name=' + playerArray[x].playerNumber + 'B-Bet]').val(), 10);
+		
+	function getBet(element,isTeamGame){
+		if(isTeamGame){
+			var bet = parseInt($('input[name=' + playerArray[element].playerNumber + 'Bet]').val(), 10);
+			return isNaN(bet) ? 0 : bet ;
+		}
+		else{
+			var bet1 = parseInt($('input[name=' + playerArray[element].playerNumber + 'A-Bet]').val(), 10);
+			var bet2 = parseInt($('input[name=' + playerArray[element].playerNumber + 'B-Bet]').val(), 10);
 			//assume empty bets are 0
 			bet1 = isNaN(bet1) ? 0 : bet1;
 			bet2 = isNaN(bet2) ? 0 : bet2;
-			var totalBet = bet1 + bet2;
-			
-			var happy = $('input[name=' + playerArray[x].playerNumber + 'Check]').is(':checked');
-			if(happy === true){
-				playerArray[x].score = playerArray[x].score + 10 + totalBet;
-				$('input[name=' + playerArray[x].playerNumber + 'Bet]').val('');
-				$('input[name=' + playerArray[x].playerNumber + 'Check]').prop("checked", false);
-				$('#round' + round).append('<td>' + playerArray[x].score + '</td>');
-				//alert(playerArray[x].score);
-			}
-			else{
-				playerArray[x].score = playerArray[x].score - totalBet;
-				$('input[name=' + playerArray[x].playerNumber + 'Bet]').val('');
-				$('#round' + round).append('<td style="color:red;">' + playerArray[x].score + '</td>');
-				//alert(playerArray[x].score);
-			}
-		};	
-		$('#scores_table').append('</tr>');
-		round += 1;
-	};
-=======
->>>>>>> origin/master
+			return bet1 + bet2;
+		}
+	}
+	
+	function isTeamGame(){
+		return $('[name="teams-flip"]').is(':checked') ? true :false;
+	}
+	
+	function setTeamButton(){
+		if(playerArray.length > 0)
+			$('[name="teams-flip"]').flipswitch('disable');
+		else
+			$('[name="teams-flip"]').flipswitch('enable');
+	}
 	
 	/********************************JQuery Functions*******************************/
 	//This function listens for the add button (id of btn-add) to be clicked and calls the functions that add players once it is called. 
@@ -156,17 +148,7 @@ $(document).ready(function(){
 	
 	//This function listens for the Next Round button (id: sbmt_rnd) to be clicked and starts the scoring once it has
 	$('#scoringRoundScreen').on('click', '#next_btn', function(){
-		if($('[name="teams-flip"]').is(':checked')){
-			scoreTeamsRound();
-		}
-		else{
-			scoreRound();
-		}
-	});
-
-	$('#players').on('click', '.remove-btn', function(){
-		var playerNumber = event.target.id.replace('remove-btn-','');
-		removePlayer(playerNumber);
+		scoreRound(isTeamGame());
 	});
 
 	$('#players').on('click', '.remove-btn', function(){
