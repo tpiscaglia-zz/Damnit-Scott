@@ -3,7 +3,6 @@ $(document).ready(function(){
 	/*********************************To Do List*************************************/
 	// Features to add: 
 	//					Add additional validation
-	//					Lock teams flipswitch after first team has been added
 	//					Hand counter
 	//					Randomizer for dealer
 	//					Alert current scores after round
