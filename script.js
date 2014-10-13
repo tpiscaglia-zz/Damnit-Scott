@@ -112,7 +112,7 @@ $(document).ready(function(){
 	};
 		
 	function getBet(element,isTeamGame){
-		if(isTeamGame){
+		if(!isTeamGame){
 			var bet = parseInt($('input[name=' + playerArray[element].playerNumber + 'Bet]').val(), 10);
 			return isNaN(bet) ? 0 : bet ;
 		}
