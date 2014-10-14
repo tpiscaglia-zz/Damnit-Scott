@@ -1,7 +1,8 @@
 table {
 	padding: .2em;
-	border-spacing: 0;
+	border-spacing: 0px;
 	table-layout: fixed;
+	width:100%;
 }
 
 table tr:nth-child(odd){
@@ -12,17 +13,37 @@ table tr:nth-child(even){
 	background-color: #e7e7e8;
 }
 
-#player_col {
-	background-color: #b3dcfc;
+#Setup-Toolbar {
+	padding: .5em .5em .5em 1em;
+	
+}
+#add_players {
+	clear: both;
+}
+
+#starting-hand {
+	display: inline;
+	padding: .5em 0em .5em 1em;
+	float: left;
+}
+#teams-flip {
+	display: inline;
+	padding:.5em 0em .5em 1em;
+	width: 50%;
+	float: left;
 }
 
 thead{
-	align-self:center;
+	position:center;
 }
 caption{
 	padding:1em;
-	font-size:2em;
-	font-weight: bold;
+	font-size:1.5em;
+	font-style:bold;
+}
+
+.player_col {
+	background-color: #b3dcfc;
 }
 
 .round{
@@ -32,10 +53,6 @@ caption{
 
 .remove-btn{
 	height:59px;
-}
-
-#toolbar {
-    padding-top: 1em;
 }
 
 input[type=number]{
