@@ -11,6 +11,7 @@ $(document).ready(function(){
 	/********************************Global Variables********************************/
 	var playerArray = [];
 	var round = 1;
+	var hand;
 	
 	/************************************OBJECTS************************************/
 	//Player object.  Stores the player's "number" and score. 
@@ -32,7 +33,6 @@ $(document).ready(function(){
 				alert("Please enter a valid name.");
 			}
 			else{
-
 				playerArray.push(new player(name));
 
 				var p = playerArray[playerArray.length - 1]
@@ -52,24 +52,25 @@ $(document).ready(function(){
 	
 	//Function that adds the Player to the Game screen.  Sets up the columns and rows.  Also gives unique ID, that is tied to a player object, to each rows checkbox and bet so that it can be checked for scoring.
 	var addPlayerToGameScreen = function(player){
-	
+
 		$('#gameScreen').append('<div class="ui-block-a '+player.playerNumber+'" style="width:40%; padding: .5em; font-size: large;">' + player.name + '<div>');
 		
 		if(isTeamGame()){
 			//append dual score boxes
 			$('#gameScreen').append('<div class="ui-block-b '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'A-Bet">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'B-Bet">' + '</div>');		
+			$('#gameScreen').append('<div class="ui-block-c '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + player.playerNumber + 'Check">' + '</div>');
 		}
 		else{
 			//append single score box
 			$('#gameScreen').append('<div class="ui-block-b '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="number" data-role="none" min="0" max="12" style ="width:3em" name="' + player.playerNumber + 'Bet">' + '</div>');		
+			$('#gameScreen').append('<div class="ui-block-c '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + player.playerNumber + 'Check">' + '</div>');
 		}
-		
-		$('#gameScreen').append('<div class="ui-block-c '+player.playerNumber+'" style="width:30%; padding: .5em;">' + '<input type="checkbox" data-role="none" name="' + player.playerNumber + 'Check">' + '</div>');
+
 	};
 
 	//This function adds the player to the score screen Assigning the ID to the playerID.
 	var addPlayerToScoreScreen = function(player){
-		$('#player_col').append('<td class ="'+player.playerNumber+'" id="' + player.playerNumber + '"><b>' + player.name + '</b></td>');
+		$('.player_col').append('<td class ="'+player.playerNumber+'" id="' + player.playerNumber + '"><b>' + player.name + '</b></td>');
 	};
 
 	function removePlayer(playerNumber){
@@ -86,31 +87,36 @@ $(document).ready(function(){
 		}
 	}
 	
-	/****************************Scoring System Functions***************************/
+	/****************************Scoring System Functions****************************/
 	var scoreRound = function(isTeamGame){
 		$('#scores_table').append('<tr id="round' + round +'">' + '<td>' + round + '</td>');
 		for(var x=0;x < playerArray.length;x++){
-
-			var bet = getBet(x,isTeamGame);
+			console.log(playerArray.length);
+			var bet = getBet(x, isTeamGame);
 			var happy = $('input[name=' + playerArray[x].playerNumber + 'Check]').is(':checked');
 			if(happy === true){
 				playerArray[x].score = playerArray[x].score + 10 + bet;
-				$('input[name=' + playerArray[x].playerNumber + 'Bet]').val('');
-				$('input[name=' + playerArray[x].playerNumber + 'Check]').prop("checked", false);
-				$('#round' + round).append('<td>' + playerArray[x].score + '</td>');
-				//alert(playerArray[x].score);
+				$('#round' + round).append('<td>' + playerArray[x].score + '</td>');	
 			}
 			else{
 				playerArray[x].score = playerArray[x].score - bet;
-				$('input[name=' + playerArray[x].playerNumber + 'Bet]').val('');
 				$('#round' + round).append('<td style="color:red;">' + playerArray[x].score + '</td>');
-				//alert(playerArray[x].score);
 			}
 		};	
+		resetBet();
 		$('#scores_table').append('</tr>');
 		round += 1;
 	};
-		
+	
+	function resetBet(){
+		for(var x=0; x<playerArray.length; x++){
+			$('input[name=' + playerArray[x].playerNumber + 'Bet]').val('');
+			$('input[name=' + playerArray[x].playerNumber + 'A-Bet]').val('');
+			$('input[name=' + playerArray[x].playerNumber + 'B-Bet]').val(''); 
+			$('input[name=' + playerArray[x].playerNumber + 'Check]').prop("checked", false);
+		}
+	}
+
 	function getBet(element,isTeamGame){
 		if(!isTeamGame){
 			var bet = parseInt($('input[name=' + playerArray[element].playerNumber + 'Bet]').val(), 10);
@@ -125,18 +131,28 @@ $(document).ready(function(){
 			return bet1 + bet2;
 		}
 	}
-	
+		
 	function isTeamGame(){
-		return $('[name="teams-flip"]').is(':checked') ? true :false;
+		return $('[name="teams-flip"]').is(":checked") ? true :false;
 	}
-	
+		
 	function setTeamButton(){
-		if(playerArray.length > 0)
+		if(playerArray.length > 0){
 			$('[name="teams-flip"]').flipswitch('disable');
-		else
+		}else{
 			$('[name="teams-flip"]').flipswitch('enable');
+		}
 	}
-	
+		
+	function setCurrentScore(){
+		var tr = $('#live_scores');  //Creates a variable that is set to the live_scores ID (which is non-existent the first time)
+		tr.remove();  //removes the table row so it can be updated(recreated) later
+		$('#current_scores').append('<tr id="live_scores"></tr>');  //recreating the table row (id=live_scores) and appending it to the current scores table
+		//loops through the player array and appends the current score for that player to the live_scores row
+		for(var x = 0; x < playerArray.length; x++){
+			$('#live_scores').append('<td>' + playerArray[x].score + '</td>');
+		}
+	}
 	/********************************JQuery Functions*******************************/
 	//This function listens for the add button (id of btn-add) to be clicked and calls the functions that add players once it is called. 
 	$('#add_players').on('click', '#btn-add', function(){
@@ -148,10 +164,13 @@ $(document).ready(function(){
 	//This function listens for the Next Round button (id: sbmt_rnd) to be clicked and starts the scoring once it has
 	$('#scoringRoundScreen').on('click', '#next_btn', function(){
 		scoreRound(isTeamGame());
+		setCurrentScore();
+		$('input[name="hand-size"]').prop('disabled' , true); // disables the hand-size input after the first round
 	});
 
 	$('#players').on('click', '.remove-btn', function(){
 		var playerNumber = event.target.id.replace('remove-btn-','');
 		removePlayer(playerNumber);
 	});
+
 });
