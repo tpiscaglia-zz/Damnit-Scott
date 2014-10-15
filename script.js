@@ -4,6 +4,8 @@ $(document).ready(function(){
 	var playerArray = [];
 	var round = 1;
 	var hand;
+	var handZero = false;
+	var handSet = false;
 	var dealerIs;
 	
 	/************************************OBJECTS************************************/
@@ -92,8 +94,41 @@ $(document).ready(function(){
 		}
 	}
 	
+	function setRound(){
+		if(hand != undefined){
+			handSet = true;
+		}else{
+			hand = $('input[name=hand-size]').val();
+			if(hand != ""){
+				handSet = true;
+			}
+		}
+			
+		if(hand == 1){
+			handZero=true;
+		}
+		//if(hand == -1){
+		//	if(hand == -1){
+		//		document.getElementById('hand-counter').innerHTML = "";
+		//	}
+		//}
+		if(handSet == false){
+			document.getElementById('hand-counter').innerHTML = "";
+		}else{
+			if(handZero == true){
+				hand +=1;
+			}
+			else{
+				hand -=1;
+			}
+			document.getElementById('hand-counter').innerHTML = "<h3>Current Hand: " + hand + "</h3>";			
+		}
+		round +=1;
+	}
+	
 	/****************************Scoring System Functions****************************/
 	var scoreRound = function(isTeamGame){
+		setRound();
 		$('#scores_table').append('<tr id="round' + round +'">' + '<td>' + round + '</td>');
 		for(var x=0;x < playerArray.length;x++){
 			console.log(playerArray.length);
@@ -110,7 +145,6 @@ $(document).ready(function(){
 		};	
 		resetBet();
 		$('#scores_table').append('</tr>');
-		round += 1;
 	};
 	
 	function resetBet(){
@@ -164,6 +198,7 @@ $(document).ready(function(){
 		var toAdd = $('input[name=playerNameInput]').val();
 		addPlayer(toAdd);
 		$('input[name=playerNameInput]').val('');  //resets the input box to blank
+		//hand = $('input[name=hand-size]').val();
 	});
 	
 	//This function listens for the Next Round button (id: sbmt_rnd) to be clicked and starts the scoring once it has
