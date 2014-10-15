@@ -25,11 +25,25 @@ table tr:nth-child(even){
 	display: inline;
 	padding: .5em 0em .5em 1em;
 	float: left;
+	width: 33%;
 }
+
 #teams-flip {
 	display: inline;
 	padding:.5em 0em .5em 1em;
-	width: 50%;
+	width: 33%;
+	float: left;
+}
+
+#hand-counter {
+	display: inline;
+	padding: .5em 0em .5em 1em;
+	float: left;
+}
+
+#randomize-dealer {
+	display: inline;
+	padding: .5em 0em .5em 1em;
 	float: left;
 }
 
