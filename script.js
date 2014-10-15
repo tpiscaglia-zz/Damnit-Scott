@@ -1,17 +1,10 @@
 $(document).ready(function(){
-	/********************************************************************************/
-	/*********************************To Do List*************************************/
-	// Features to add: 
-	//					Add additional validation
-	//					Hand counter
-	//					Randomizer for dealer
-	//					Alert current scores after round
-	/********************************************************************************/
-	
+		
 	/********************************Global Variables********************************/
 	var playerArray = [];
 	var round = 1;
 	var hand;
+	var dealerIs;
 	
 	/************************************OBJECTS************************************/
 	//Player object.  Stores the player's "number" and score. 
@@ -84,6 +77,18 @@ $(document).ready(function(){
 			var key = playerNumber.replace(/\D/g,'')
 			playerArray.splice(key,1); //remove from playerArray
 			setTeamButton();
+		}
+	}
+	
+	function randDealer(){
+	//The game requires at least 3 players to play so if the player array is less than 2, it will alert the user to enter more players.
+		if(playerArray.length <= 2){  
+			alert("Please add at least three players first")
+		}else{
+			var rand = Math.floor((Math.random() * playerArray.length));
+			var randomDealer = playerArray[rand];
+			alert("Dealer is: " + randomDealer.name);
+			dealerIs = randomDealer;
 		}
 	}
 	
@@ -171,6 +176,10 @@ $(document).ready(function(){
 	$('#players').on('click', '.remove-btn', function(){
 		var playerNumber = event.target.id.replace('remove-btn-','');
 		removePlayer(playerNumber);
+	});
+	
+	$('#players').on('click', '#rand-dealer-btn', function(){
+		randDealer();
 	});
 
 });
