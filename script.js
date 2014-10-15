@@ -107,11 +107,6 @@ $(document).ready(function(){
 		if(hand == 1){
 			handZero=true;
 		}
-		//if(hand == -1){
-		//	if(hand == -1){
-		//		document.getElementById('hand-counter').innerHTML = "";
-		//	}
-		//}
 		if(handSet == false){
 			document.getElementById('hand-counter').innerHTML = "";
 		}else{
