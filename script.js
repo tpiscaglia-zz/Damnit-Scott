@@ -1,4 +1,3 @@
-	
 /********************************Global Variables********************************/
 var playerArray = [];
 var round = 1;
@@ -100,19 +99,6 @@ function randDealer(){
 }
 
 function setRound(){
-//This function is a bit messy so I would like to explain it.  The first statement checks to see if the hand is a number or not.  If it is a number, it sets the handSet var to True.
-//If it is undefined, it tries setting the hand var to what is in the optional hand-size input.  If it then has a value, it will set the handSet var to true.
-//It then uses another boolean, handZero, to determine if the hand size has reached its lowest value.  Using that, I determine whether to increase or decrease the hand size.
-//The function also will update the hand-counter div. 
-	if(isNaN(hand) === false){
-		handSet = true;
-	}else{
-		hand = parseInt($('input[name=hand-size]').val(), 10);
-		if(isNaN(hand) == false){
-			handSet = true;
-		}
-	}
-		
 	if(hand == 1){
 		handZero=true;
 	}
@@ -133,6 +119,9 @@ function setRound(){
 
 /****************************Scoring System Functions****************************/
 function scoreRound(isTeamGame){
+	if(validateBet() == false){
+		return;
+	}
 	setRound();
 	$('#scores_table').append('<tr id="round' + round +'">' + '<td>' + round + '</td>');
 	for(var x=0;x < playerArray.length;x++){
@@ -149,6 +138,9 @@ function scoreRound(isTeamGame){
 	};	
 	resetBet();
 	$('#scores_table').append('</tr>');
+	setCurrentScore();
+	$('input[name="hand-size"]').prop('disabled' , true);
+	setTeamButton();
 };
 
 function resetBet(){
@@ -161,12 +153,39 @@ function resetBet(){
 }
 
 function getBet(element){
-		var bet1 = parseInt($('input[name=' + playerArray[element].playerNumber + 'A-Bet]').val(), 10);
-		var bet2 = parseInt($('input[name=' + playerArray[element].playerNumber + 'B-Bet]').val(), 10);
+	var bet1 = parseInt($('input[name=' + playerArray[element].playerNumber + 'A-Bet]').val(), 10);
+	var bet2 = parseInt($('input[name=' + playerArray[element].playerNumber + 'B-Bet]').val(), 10);
+	//assume empty bets are 0
+	bet1 = isNaN(bet1) ? 0 : bet1;
+	bet2 = isNaN(bet2) ? 0 : bet2;
+	return bet1 + bet2;
+}
+
+function validateBet(){
+	if(isNaN(hand) === false){
+		handSet = true;
+	}else{
+		hand = parseInt($('input[name=hand-size]').val(), 10);
+		if(isNaN(hand) == false){
+			handSet = true;
+		}
+	}
+	for(var x=0;x < playerArray.length;x++){
+		var bet1 = parseInt($('input[name=' + playerArray[x].playerNumber + 'A-Bet]').val(), 10);
+		var bet2 = parseInt($('input[name=' + playerArray[x].playerNumber + 'B-Bet]').val(), 10);
 		//assume empty bets are 0
 		bet1 = isNaN(bet1) ? 0 : bet1;
 		bet2 = isNaN(bet2) ? 0 : bet2;
-		return bet1 + bet2;
+		/*doing some validation*/
+		if(bet1 + bet2 < 0){
+			alert("Please check the bets.  You cannot have a bet total less than zero.");
+			return false;
+		}else if(handSet == true && bet1 + bet2 > hand){
+			alert("Please check the bets.  You cannot have a bet greater than the hand size.");
+			return false;
+		}
+	}
+	return true;	
 }
 	
 function isTeamGame(){
@@ -201,12 +220,8 @@ $(document).ready(function(){
 		$('input[name=playerNameInput]').val('');  //resets the input box to blank
 	});
 	
-	//This function listens for the Next Round button (id: sbmt_rnd) to be clicked and starts the scoring once it has
 	$('#scoringRoundScreen').on('click', '#next_btn', function(){
 		scoreRound(isTeamGame());
-		setCurrentScore();
-		$('input[name="hand-size"]').prop('disabled' , true); // disables the hand-size input after the first round
-		setTeamButton();
 	});
 
 	$('#players').on('click', '.remove-btn', function(){
